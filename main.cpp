@@ -37,12 +37,39 @@ main(){
 	p=0;
 	i=0;
 
-	string str = "aaa";
-	printf("请输入字符串:\n");
-	do{
-		ch = getchar();
-		inputChar[p++] = ch;
-	}while(ch!='\n');
+	FILE *fp = fopen("analysis.txt","r"); 
+	char *str;
+	
+	if(fp == NULL){
+		printf("文件错误");
+		return -1;
+	}
+	
+	//获取文件长度
+	fseek(fp,0,SEEK_END);
+	int len = ftell(fp);
+	fseek(fp,0,SEEK_SET);
+	
+	printf("%d\n",len);
+	//将文件提取到字符串
+	str = (char *)malloc(len*sizeof(char));
+	if(str != NULL){
+		fread(str,len*sizeof(char),1,fp);
+		
+	}
+	//将字符串转化为数组
+
+	
+	for(int t = 0;t<len;t++){
+		inputChar[t] = *(str++);
+	}
+	
+	
+//	printf("请输入字符串:\n");
+//	do{
+//		ch = getchar();
+//		inputChar[p++] = ch;
+//	}while(ch!='\n');
 	
 	
 	i=0;/*初始化i*/
@@ -90,9 +117,9 @@ main(){
 					i++;
 					ch=inputChar[i];
 				}
-				if(inputChar[i]==' '||inputChar[i]=='\n'){
-					printf("<%d,数字,1>\n",sum);
-				}
+					if(inputChar[i]==' '||inputChar[i]=='\n'){
+						getRes("数字",sum);
+					}
 				}
 				
 					
@@ -188,10 +215,22 @@ main(){
 				break;
 			}	
 			
-			case 'm':
+			case 'm':{
+            	if((inputChar[i+1] == 'a')&&(inputChar[i+2] == 'i')&&(inputChar[i+3] == 'n')&&!(inputChar[i-1] <'9'&&inputChar[i-1] >'0'||inputChar[i-1] <'z'&&inputChar[i-1] >'a')&&!(inputChar[i+4] <'9'&&inputChar[i+4] >'0'||inputChar[i+4] <'z'&&inputChar[i+4] >'a')){
+				
+					getRes("main",57);
+				}
+				break;
+			}
             case 'n':
             case 'o':
-            case 'p':
+            case 'p':{
+            	if((inputChar[i+1] == 'r')&&(inputChar[i+2] == 'i')&&(inputChar[i+3] == 'n')&&(inputChar[i+4] == 't')&&(inputChar[i+5] == 'f')&&!(inputChar[i-1] <'9'&&inputChar[i-1] >'0'||inputChar[i-1] <'z'&&inputChar[i-1] >'a')&&!(inputChar[i+6] <'9'&&inputChar[i+6] >'0'||inputChar[i+6] <'z'&&inputChar[i+6] >'a')){
+				
+					getRes("printf",55);
+				}
+				break;
+			}
             case 'q':
             	
 			case 'r':{
@@ -220,6 +259,9 @@ main(){
 					getRes("signed",49);
 				}else if((inputChar[i+1] == 't')&&(inputChar[i+2] == 'a')&&(inputChar[i+3] == 't')&&(inputChar[i+4] == 'i')&&(inputChar[i+5] == 'c')&&!(inputChar[i-1] <'9'&&inputChar[i-1] >'0'||inputChar[i-1] <'z'&&inputChar[i-1] >'a')&&!(inputChar[i+6] <'9'&&inputChar[i+6] >'0'||inputChar[i+6] <'z'&&inputChar[i+6] >'a')){
 					getRes("static",53);
+				}else if((inputChar[i+1] == 'c')&&(inputChar[i+2] == 'a')&&(inputChar[i+3] == 'n')&&(inputChar[i+4] == 'f')&&!(inputChar[i-1] <'9'&&inputChar[i-1] >'0'||inputChar[i-1] <'z'&&inputChar[i-1] >'a')&&!(inputChar[i+5] <'9'&&inputChar[i+5] >'0'||inputChar[i+5] <'z'&&inputChar[i+5] >'a')){
+				
+					getRes("scanf",56);
 				}
 				break;
 			}
@@ -342,7 +384,7 @@ main(){
 			}
 			case '&':{
 				
-				if((inputChar[i+1] == '&')&&(inputChar[i+2] == ' '||inputChar[i+2] == '\n')){
+				if((inputChar[i+1] == '&')&&(inputChar[i+2] !='&')){
 					getRes("&&",12);
 				}
 				
@@ -358,6 +400,11 @@ main(){
 				break;
 			}
 			case '=':{
+				
+				if((inputChar[i+1] == '=')&&(inputChar[i+2] != '=')){
+					getRes("==",22);
+				}
+				
 				getRes("=",15);
 				break;
 			}
@@ -391,7 +438,7 @@ main(){
 			}
 			case '|':{
 				
-				if((inputChar[i+1] == '|')&&(inputChar[i+2] == ' '||inputChar[i+2] == '\n')){
+				if((inputChar[i+1] == '|')&&(inputChar[i+2] !='|')){
 					getRes("&&",12);
 				}
 				
