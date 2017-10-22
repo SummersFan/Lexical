@@ -40,6 +40,9 @@ main(){
 	FILE *fp = fopen("analysis.txt","r"); 
 	char *str;
 	
+	FILE *rp;
+	rp = fopen("after.txt","w"); 
+	
 	if(fp == NULL){
 		printf("ÎÄ¼ş´íÎó");
 		return -1;
@@ -460,7 +463,8 @@ main(){
 	
 
 	while(res[i].str != NULL){
-		printf("%s,%d\n",res[i].str,res[i].num);
+//		printf("%s,%d\n",res[i].str,res[i].num);
+		fprintf(rp,"%s,%d\n",res[i].str,res[i].num);
 		i++;
 	}
 } 
